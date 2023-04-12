@@ -66,5 +66,7 @@ def displayHigh(val):
 
 
 print(f'Display High if val is gte mean, display Low if val is lt mean, using apply \n{the_series.apply(displayHigh)}')
+high = the_series.where(lambda x: x >= the_series.mean())
+low = the_series.where(lambda x: x < the_series.mean())
 print(
-    f'Display High if val is gte mean, display Low if val is lt mean, using select/where \n{the_series.where(lambda x: x < the_series.mean(), "High")}')
+    f'Display High if val is gte mean, display Low if val is lt mean, using select/where \n{np.select([the_series.isin(high), the_series.isin(low)], ["High", "Low"], "Other")}')
