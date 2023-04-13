@@ -3,6 +3,8 @@ import time
 import numpy as np
 
 # Ch4
+from pandas import Series
+
 temps = pd.Series([145, 142, 38, 13, 12, 15, 52])
 # Filter out anything below the mean
 print(temps[temps > np.mean(temps)])
@@ -57,13 +59,15 @@ print(f'memory size of ch8_string_convert with order: {ch8_string.astype(city_ty
 # Ch9
 # Create series from numeric column that has the value of 'high' if it is equal
 # to or above the mean and 'low' if it is below the mean using .apply()
-the_series = pd.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, None, None])
+the_series = pd.Series(
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, None, None])
 
 
 def displayHigh(val):
     if (val >= the_series.mean()):
         return 'High'
     return 'Low'
+
 
 start_time = time.time()
 print(
@@ -78,7 +82,21 @@ print(
 print("--- %s seconds ---" % (time.time() - start_time2))
 
 print(f'fill in the missing values with the mean: \n{the_series.fillna(the_series.mean())}')
-print(f'Clip from the 10th quantile to the 90th quantile: \n{the_series.clip(the_series.quantile(.1), the_series.clip(the_series.quantile(.9)))}')
+print(
+    f'Clip from the 10th quantile to the 90th quantile: \n{the_series.clip(the_series.quantile(.1), the_series.clip(the_series.quantile(.9)))}')
+
 top_5 = the_series.value_counts().index[:5]
-print(f'Use {top_5}')
-print(f'Use {the_series.where(the_series.i(top_5), "Other")}')
+print(f'Show the top 5 in the series {top_5}')
+print(f'Show series, but replace anything that is not in the top 5 {the_series.where(the_series.isin(top_5), "Other")}')
+
+top_10 = the_series.value_counts().index[:10]
+print(f'Show the top 10 in the series {top_10}')
+print(
+    f'Show series, but replace anything that is not in the top 10 {the_series.where(the_series.isin(top_10), "Other")}')
+
+
+def top_n(a_series: Series, top: int) -> Series:
+    return a_series.value_counts().index[:top]
+
+
+print(f'print top n {top_n(the_series, 12)}')
