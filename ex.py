@@ -1,4 +1,5 @@
 import pandas as pd
+import time
 import numpy as np
 
 # Ch4
@@ -56,7 +57,7 @@ print(f'memory size of ch8_string_convert with order: {ch8_string.astype(city_ty
 # Ch9
 # Create series from numeric column that has the value of 'high' if it is equal
 # to or above the mean and 'low' if it is below the mean using .apply()
-the_series = pd.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25])
+the_series = pd.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, None, None])
 
 
 def displayHigh(val):
@@ -64,9 +65,20 @@ def displayHigh(val):
         return 'High'
     return 'Low'
 
+start_time = time.time()
+print(
+    f'Display High if val is gte mean, display Low if val is lt mean, using apply \n{the_series.apply(displayHigh)}')
+print("--- %s seconds ---" % (time.time() - start_time))
 
-print(f'Display High if val is gte mean, display Low if val is lt mean, using apply \n{the_series.apply(displayHigh)}')
+start_time2 = time.time()
 high = the_series.where(lambda x: x >= the_series.mean())
 low = the_series.where(lambda x: x < the_series.mean())
 print(
     f'Display High if val is gte mean, display Low if val is lt mean, using select/where \n{np.select([the_series.isin(high), the_series.isin(low)], ["High", "Low"], "Other")}')
+print("--- %s seconds ---" % (time.time() - start_time2))
+
+print(f'fill in the missing values with the mean: \n{the_series.fillna(the_series.mean())}')
+print(f'Clip from the 10th quantile to the 90th quantile: \n{the_series.clip(the_series.quantile(.1), the_series.clip(the_series.quantile(.9)))}')
+top_5 = the_series.value_counts().index[:5]
+print(f'Use {top_5}')
+print(f'Use {the_series.where(the_series.i(top_5), "Other")}')
