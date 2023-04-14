@@ -100,3 +100,6 @@ def top_n(a_series: Series, top: int) -> Series:
 
 
 print(f'print top n {top_n(the_series, 12)}')
+
+print(f'print bins of equal width {pd.cut(the_series, 5)}')
+print(f'print bins of equal quantity sizes {pd.cut(the_series, 5)}')
