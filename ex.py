@@ -103,3 +103,10 @@ print(f'print top n {top_n(the_series, 12)}')
 
 print(f'print bins of equal width {pd.cut(the_series, 5)}')
 print(f'print bins of equal quantity sizes {pd.cut(the_series, 5)}')
+
+
+# ch10
+print(f'inspect {the_series}')
+print(f'change the index labels from dict {the_series.rename(the_series.to_dict())}')
+print(f'set index to monotonic increasing {the_series.reset_index()}')
+print(f'change the index labels from dict {the_series.rename(the_series.to_dict()).rename()}')
